@@ -11,8 +11,7 @@ fi
 
 # Install the FAIR-CLI
 export FAIR_CLI_REPO=$HOME/FAIRCLI-repo
-wget https://github.com/FAIRDataPipeline/FAIR-CLI/archive/refs/heads/dev.zip -O $FAIR_CLI_REPO.zip
-unzip $FAIR_CLI_REPO.zip -d $FAIR_CLI_REPO
+git clone git@github.com:FAIRDataPipeline/FAIR-CLI.git $FAIR_CLI_REPO
 cd $FAIR_CLI_REPO
 poetry install
 poetry shell
