@@ -22,4 +22,4 @@ RUN python -m pip install poetry
 # Add entrypoint script
 COPY entrypoint.sh /home/fairci/entrypoint.sh
 
-ENTRYPOINT [ "/home/fairci/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/bash", "/home/fairci/entrypoint.sh" ]
