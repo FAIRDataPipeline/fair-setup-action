@@ -27,7 +27,7 @@ fi
 
 # Only initialise if there is no fair directory
 if [ ! -d "$PWD/.fair" ]; then
-    python -m fair init --ci
+    fair init --ci
 fi
 
 # Execute any fair subcommand specified
@@ -42,5 +42,5 @@ if [ ! -n "${INPUT_CMD}" ]; then
     else
         FLAGS=''
     fi
-    python -m fair ${INPUT_CMD} ${FLAGS}
+    fair ${INPUT_CMD} ${FLAGS}
 fi
