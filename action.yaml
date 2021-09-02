@@ -10,6 +10,10 @@ inputs:
     description: Directory for registry installation
     required: false
     default: /home/fairci
+  cli_branch:
+    description: Git branch for CLI
+    required: false
+    default: dev
 runs:
   using: docker
   image: Dockerfile
