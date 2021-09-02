@@ -14,6 +14,6 @@ export FAIR_CLI_REPO=$HOME/FAIRCLI-repo
 git clone --depth 1 -b ${INPUT_CLI_BRANCH} https://github.com/FAIRDataPipeline/FAIR-CLI.git $FAIR_CLI_REPO
 cd $FAIR_CLI_REPO
 poetry build
-python -m pip install --no-index --find-links=dist/
+python -m pip install fair --no-index --find-links=dist/
 cd $HOME
 rm -rf $FAIR_CLI_REPO
