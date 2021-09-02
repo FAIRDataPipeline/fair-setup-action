@@ -15,6 +15,6 @@ git clone --depth 1 -b ${INPUT_CLI_BRANCH} https://github.com/FAIRDataPipeline/F
 cd $FAIR_CLI_REPO
 poetry build
 python -m pip install jinja2
-python -m pip install fair --no-index --find-links=dist/
+python -m pip install fair-cli --find-links=dist/
 cd $HOME
 rm -rf $FAIR_CLI_REPO
