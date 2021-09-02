@@ -19,10 +19,15 @@ python -m pip install jinja2 > /dev/null
 python -m pip install fair-cli --find-links=dist/ > /dev/null
 export PATH=$HOME/.local/bin:$PATH
 
-if [ ! -n "${INPUT_PROJECT_DIRECTORY}" ]; then
-    cd ${INPUT_PROJECT_DIRECTORY}
+if [ -n "${INPUT_DIRECTORY}" ]; then
+    if [ ${INPUT_DIRECTORY} -ef ${PWD} ]; then
+        echo "Error: Project directory cannot be HOME location"
+        exit 1
+    fi
+    cd ${INPUT_DIRECTORY}
 else
-    cd $CURWD
+    echo "Error: Expected FAIR project directory"
+    exit 1
 fi
 
 # Only initialise if there is no fair directory

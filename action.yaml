@@ -10,10 +10,9 @@ inputs:
     description: Command to run
     required: false
     default: ''
-  project_directory:
-    description: Location for initialisation
-    required: false
-    default: ''
+  directory:
+    description: Location of FAIR project for initialisation
+    required: true
   registry_directory:
     description: Directory for registry installation
     required: false

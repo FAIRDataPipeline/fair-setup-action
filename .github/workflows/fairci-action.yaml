@@ -4,6 +4,9 @@ jobs:
     test:
       runs-on: ubuntu-latest
       steps:
+        - name: Create pretend project
+          run: mkdir -p my_project
         - uses: FAIRDataPipeline/fair-setup-action@testing
           with:
             cmd: run
+            directory: my_project
