@@ -1,0 +1,7 @@
+name: FAIR Data Pipeline Action Check
+on: [push]
+jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: FAIRDataPipeline/fair-setup-action@testing

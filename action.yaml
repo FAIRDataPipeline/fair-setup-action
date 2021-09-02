@@ -1,0 +1,18 @@
+name: FAIR Data Pipeline Action
+author: Scottish COVID Response Consortium
+description: Adds full install of the FAIR Data Pipeline registry and Command Line Interface
+inputs:
+  registry_tag:
+    description: Use a tagged release of the FAIR registry
+    required: false
+    default: ''
+  registry_directory:
+    description: Directory for registry installation
+    required: false
+    default: /home/fairci
+runs:
+  using: docker
+  image: Dockerfile
+branding:
+  icon: database
+  color: gray-dark
