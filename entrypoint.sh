@@ -24,7 +24,7 @@ if [ -n "${INPUT_DIRECTORY}" ]; then
         echo "Error: Project directory cannot be HOME location"
         exit 1
     fi
-    cd ${INPUT_DIRECTORY}
+    cd ${CURWD}/${INPUT_DIRECTORY}
 else
     echo "Error: Expected FAIR project directory"
     exit 1

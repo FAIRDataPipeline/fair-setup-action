@@ -11,7 +11,7 @@ inputs:
     required: false
     default: ''
   directory:
-    description: Location of FAIR project for initialisation
+    description: Location of FAIR project for initialisation relative to runner directory
     required: true
   registry_directory:
     description: Directory for registry installation
