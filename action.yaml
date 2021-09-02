@@ -6,6 +6,14 @@ inputs:
     description: Use a tagged release of the FAIR registry
     required: false
     default: ''
+  cmd:
+    description: Command to run
+    required: false
+    default: ''
+  project_directory:
+    description: Location for initialisation
+    required: false
+    default: ''
   registry_directory:
     description: Directory for registry installation
     required: false

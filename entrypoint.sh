@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+CURWD=$PWD
 
 # Install the registry
 curl https://data.scrc.uk/static/localregistry.sh > localregistry.sh
@@ -16,6 +17,30 @@ cd $FAIR_CLI_REPO
 poetry build
 python -m pip install jinja2
 python -m pip install fair-cli --find-links=dist/
-export PATH=$HOME/.local/bin:$PATH 
-cd $HOME
-rm -rf $FAIR_CLI_REPO
+export PATH=$HOME/.local/bin:$PATH
+
+if [ ! -n "${INPUT_PROJECT_DIRECTORY}" ]; then
+    cd ${INPUT_PROJECT_DIRECTORY}
+else
+    cd $CURWD
+fi
+
+# Only initialise if there is no fair directory
+if [ ! -d "$PWD/.fair" ]; then
+    python -m fair init --ci
+fi
+
+# Execute any fair subcommand specified
+# for 'fair run' make sure to add --ci flag if
+# it is not already present
+
+if [ ! -n "${INPUT_CMD}" ]; then
+    RUN_CMD=' run'
+    CI_FLAG='--ci'
+    if [[ $RUN_CMD == *"${INPUT_CMD}"* && $CI_FLAG != *"${INPUT_CMD}"* ]]; then
+        FLAGS='--ci'
+    else
+        FLAGS=''
+    fi
+    python -m fair ${INPUT_CMD} ${FLAGS}
+fi

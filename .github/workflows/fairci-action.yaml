@@ -5,5 +5,5 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: FAIRDataPipeline/fair-setup-action@testing
-        - run: fair init --ci
-        - run: fair run --ci
+          with:
+            cmd: run
