@@ -8,6 +8,9 @@ RUN apt install -y dirmngr gnupg apt-transport-https ca-certificates software-pr
 RUN apt install -y python3 python3-pip
 RUN apt install -y wget curl git
 
+# Set Python to be Python3
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # Create non-admin user
 RUN useradd -ms /bin/bash fairci
 USER fairci
