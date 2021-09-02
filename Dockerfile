@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y dirmngr gnupg apt-transport-https ca-certificates software-properties-common
-RUN apt install -y python3 python3-pip
+RUN apt install -y python3 python3-pip python3-venv
 RUN apt install -y wget curl git zip unzip
 
 # Set Python to be Python3
