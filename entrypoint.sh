@@ -31,7 +31,13 @@ else
 fi
 
 # Only initialise if there is no fair directory
+# also make sure to create git repository
 if [ ! -d "$PWD/.fair" ]; then
+    git config --global user.name "GitHub Action" > /dev/null
+    git config --global user.email "github-action@users.noreply.github.com" > /dev/null
+    if [ ! -d "${PWD}/.git" ]; then
+        git init > /dev/null
+    fi
     fair init --ci
 fi
 
