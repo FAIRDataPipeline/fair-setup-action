@@ -16,5 +16,6 @@ cd $FAIR_CLI_REPO
 poetry build
 python -m pip install jinja2
 python -m pip install fair-cli --find-links=dist/
+export PATH=$HOME/.local/bin:$PATH 
 cd $HOME
 rm -rf $FAIR_CLI_REPO
