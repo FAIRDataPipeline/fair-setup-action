@@ -45,7 +45,7 @@ fi
 # for 'fair run' make sure to add --ci flag if
 # it is not already present
 
-if [ ! -n "${INPUT_CMD}" ]; then
+if [ -n "${INPUT_CMD}" ]; then
     RUN_CMD=' run'
     CI_FLAG='--ci'
     if [[ $RUN_CMD == *"${INPUT_CMD}"* && $CI_FLAG != *"${INPUT_CMD}"* ]]; then
