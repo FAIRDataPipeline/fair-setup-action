@@ -31,12 +31,16 @@ else
 fi
 
 # Only initialise if there is no fair directory
-# also make sure to create git repository
+# also make sure to create git repository and create a
+# commit if one does not exist and setup a dummy remote
 if [ ! -d "$PWD/.fair" ]; then
     git config --global user.name "GitHub Action" > /dev/null
     git config --global user.email "github-action@users.noreply.github.com" > /dev/null
     if [ ! -d "${PWD}/.git" ]; then
         git init > /dev/null
+        touch init_file > /dev/null
+        git add init_file > /dev/null
+        git commit -m "Initialised demo repo" > /dev/null
     fi
     fair init --ci
 fi
