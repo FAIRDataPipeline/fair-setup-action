@@ -13,10 +13,6 @@ inputs:
   directory:
     description: Location of FAIR project for initialisation relative to runner directory
     required: true
-  registry_directory:
-    description: Directory for registry installation
-    required: false
-    default: /home/fairci
   cli_branch:
     description: Git branch for CLI
     required: false

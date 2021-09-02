@@ -5,9 +5,9 @@ CURWD=$PWD
 curl https://data.scrc.uk/static/localregistry.sh > localregistry.sh
 
 if [ ! -n "${INPUT_REGISTRY_TAG}" ]; then
-    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY} > /dev/null
+    bash localregistry.sh > /dev/null
 else
-    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY} -t ${INPUT_REGISTRY_TAG} > /dev/null
+    bash localregistry.sh -t ${INPUT_REGISTRY_TAG} > /dev/null
 fi
 
 # Install the FAIR-CLI
