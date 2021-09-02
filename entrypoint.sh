@@ -5,18 +5,18 @@ CURWD=$PWD
 curl https://data.scrc.uk/static/localregistry.sh > localregistry.sh
 
 if [ ! -n "${INPUT_REGISTRY_TAG}" ]; then
-    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY}
+    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY} > /dev/null
 else
-    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY} -t ${INPUT_REGISTRY_TAG}
+    bash localregistry.sh -d ${INPUT_REGISTRY_DIRECTORY} -t ${INPUT_REGISTRY_TAG} > /dev/null
 fi
 
 # Install the FAIR-CLI
 export FAIR_CLI_REPO=$HOME/FAIRCLI-repo
-git clone --depth 1 -b ${INPUT_CLI_BRANCH} https://github.com/FAIRDataPipeline/FAIR-CLI.git $FAIR_CLI_REPO
+git clone --depth 1 -b ${INPUT_CLI_BRANCH} https://github.com/FAIRDataPipeline/FAIR-CLI.git $FAIR_CLI_REPO > /dev/null
 cd $FAIR_CLI_REPO
-poetry build
-python -m pip install jinja2
-python -m pip install fair-cli --find-links=dist/
+poetry build > /dev/null
+python -m pip install jinja2 > /dev/null
+python -m pip install fair-cli --find-links=dist/ > /dev/null
 export PATH=$HOME/.local/bin:$PATH
 
 if [ ! -n "${INPUT_PROJECT_DIRECTORY}" ]; then
