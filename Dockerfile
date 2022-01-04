@@ -17,4 +17,8 @@ RUN python -m pip install pyyaml
 # Add entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 
+# Copy TOML update script
+COPY update_cli_config.py /usr/bin/update_cli_config
+RUN chmod +x /usr/bin/update_cli_config
+
 ENTRYPOINT [ "/entrypoint.sh" ]

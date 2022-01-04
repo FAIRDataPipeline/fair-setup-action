@@ -4,14 +4,15 @@ jobs:
     test:
       runs-on: ubuntu-latest
       steps:
+        - uses: actions/checkout@v2
         - name: Create pretend project
           run: mkdir my_project
-        - uses: actions/checkout@v2
         - uses: FAIRDataPipeline/fair-setup-action@testing
           with:
             directory: my_project
             local_registry: local_registry
             remote_registry: remote_registry
+            ref: develop
         - name: Run Hello World!
           run: |
             fair run --script 'echo "Hello World!"'

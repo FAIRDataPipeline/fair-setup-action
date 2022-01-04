@@ -6,6 +6,10 @@ inputs:
     description: Location in which to install local registry
     required: false
     default: ''
+  local_data_store:
+    description: Location of local registry data
+    required: false
+    default: ''
   remote_registry:
     description: Location in which to install remote registry
     required: false
