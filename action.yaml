@@ -1,5 +1,5 @@
 name: FAIR Data Pipeline Action
-author: Scottish COVID Response Consortium
+author: FAIR Data Pipeline
 description: Adds full install of the FAIR Data Pipeline registry and Command Line Interface
 inputs:
   local_registry:

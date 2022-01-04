@@ -19,4 +19,5 @@ Additional options are available under the `with` tag:
 |`directory`| directory in which to run `fair init --ci`. If unset use current working directory. |
 |`local_registry`| Specify a directory for local registry installation. If unset no registry installed. If `default` use default location of `$HOME/.fair/registry`. |
 |`remote_registry`| Specify a directory for remote registry installation. If unset no registry installed. If `default` use default location of `$HOME/.fair/registry-rem`.|
+|`local_data_store`| Specify a directory for the local data store. Default is `$HOME/registry/data_store`. |
 |`ref`| Specify version of `fair-cli` to use, the default `latest` will install from PyPi the latest version, else a git reference (e.g. repository tag) is used |

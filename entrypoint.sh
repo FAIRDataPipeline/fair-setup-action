@@ -2,14 +2,28 @@
 CURWD=$PWD
 export FAIR_REGISTRY_DIR=$HOME/.fair/registry
 
-# Install the FAIR-CLI
-if [ "${INPUT_REF}" == "latest" ]; then
-    CLI_URL="fair-cli"
-else
-    CLI_URL="git+https://github.com/FAIRDataPipeline/FAIR-CLI.git@${INPUT_REF}"
-fi
+# Create a local bin directory
+FAIR_BIN_DIR="$PWD/fair-cli"
+PATH=$PATH:$FAIR_BIN_DIR/bin
+mkdir -p $FAIR_BIN_DIR/bin
 
-python -m pip install ${CLI_URL}
+echo "::group::Install FAIR-CLI"
+
+CLI_URL="https://github.com/FAIRDataPipeline/FAIR-CLI.git"
+
+git clone ${CLI_URL} fair-cli-src
+cd fair-cli-src
+if [ "${INPUT_REF}" == "latest" ]; then
+    INPUT_REF=$(git describe --tags --abbrev=0)
+fi
+git checkout ${INPUT_REF}
+poetry install
+poetry run pip install pyinstaller
+poetry run pyinstaller -c -F fair/cli.py --collect-all fair --onefile --name fair --distpath $FAIR_BIN_DIR/bin --hidden-import pydantic[email]
+
+echo "::endgroup::"
+
+echo "::group::Performing registry setup"
 
 START_SCRIPT="start_fair_registry"
 
@@ -18,7 +32,7 @@ if [ "$(uname -s)" != "Linux" ] && [ "$(uname -s)" != "Darwin" ]; then
 fi
 
 if [ -n "${INPUT_LOCAL_DATA_STORE}" ]; then
-    echo "[Setup FAIRCLI] Setting local data store to: ${CURWD}/${INPUT_LOCAL_DATA_STORE}"
+    echo "::notice title=Data Store::Setting local data store to: ${CURWD}/${INPUT_LOCAL_DATA_STORE}"
     mkdir -p ${CURWD}/${INPUT_LOCAL_DATA_STORE}
 else
     INPUT_LOCAL_DATA_STORE="default"
@@ -34,7 +48,7 @@ fi
 
 if [ -n "${INPUT_LOCAL_REGISTRY}" ]; then
     export FAIR_REGISTRY_DIR="${CURWD}/${INPUT_LOCAL_REGISTRY}"
-    echo "[Setup FAIRCLI] Installing local registry to: ${FAIR_REGISTRY_DIR}"
+    echo "::notice title=Local Registry::Installing local registry to: ${FAIR_REGISTRY_DIR}"
     fair registry install --directory ${FAIR_REGISTRY_DIR}
     ${FAIR_REGISTRY_DIR}/scripts/${START_SCRIPT} -p 8000
 else
@@ -42,15 +56,18 @@ else
 fi
 
 if [ -n "${INPUT_REMOTE_REGISTRY}" ]; then
-    echo "[Setup FAIRCLI] Installing remote registry to: ${CURWD}/${INPUT_REMOTE_REGISTRY}"
+    echo "::notice title=Remote Registry::Installing remote registry to: ${CURWD}/${INPUT_REMOTE_REGISTRY}"
     fair registry install --directory ${CURWD}/${INPUT_REMOTE_REGISTRY}
     ${CURWD}/${INPUT_REMOTE_REGISTRY}/scripts/${START_SCRIPT} -p 8001
 else
     INPUT_REMOTE_REGISTRY="default"
 fi
 
+echo "::endgroup::"
+echo "::group::FAIR Repository Setup"
+
 if [ -n "${INPUT_DIRECTORY}" ]; then
-    echo "[Setup FAIRCLI] Setting project directory to: ${CURWD}/${INPUT_DIRECTORY}"
+    echo "::notice title=Project Location::Setting project directory to: ${CURWD}/${INPUT_DIRECTORY}"
     if [ ${INPUT_DIRECTORY} -ef ${PWD} ]; then
         echo "Error: Project directory cannot be HOME location"
         exit 1
@@ -63,20 +80,35 @@ if [ ! -d "$PWD/.fair" ]; then
     git config --global user.name "GitHub Action" > /dev/null
     git config --global user.email "github-action@users.noreply.github.com" > /dev/null
     if [ ! -d "${PWD}/.git" ]; then
+        echo "::notice title=Project Initialisation::Initialising Git repository"
         git init > /dev/null
         touch init_file > /dev/null
         git add init_file > /dev/null
         git commit -m "Initialised demo repo" > /dev/null
     fi
+    echo "::notice title=Project Initialisation::Initialising FAIR repository"
     fair init --ci
+    echo "::endgroup::"
 fi
 
+echo "::group::CLI Configuration"
 LOCAL_CLI_CONFIG=${CURWD}/${INPUT_DIRECTORY}/.fair/cli-config.yaml
 GLOBAL_CLI_CONFIG=${HOME}/.fair/cli/cli-config.yaml
 
+echo "::notice title=CLI YAML Update::Updating local and global CLI configurations"
 update_cli_config \
     ${CURWD}/${INPUT_LOCAL_REGISTRY}    \
     ${CURWD}/${INPUT_REMOTE_REGISTRY}   \
     ${CURWD}/${INPUT_LOCAL_DATA_STORE}  \
     ${LOCAL_CLI_CONFIG}                 \
-    ${GLOBAL_CLI_CONFIG} 
+    ${GLOBAL_CLI_CONFIG}
+echo "::endgroup::"
+
+echo "::group::CLI Export"
+
+echo "::notice title=Updating PATH::Adding '$FAIR_BIN_DIR/bin' to \$PATH in \$GITHUB_ENV"
+
+echo "PATH=$PATH:$FAIR_BIN_DIR/bin" >> $GITHUB_ENV
+echo "FAIR_REGISTRY_DIR=$FAIR_REGISTRY_DIR" >> $GITHUB_ENV
+
+echo "::endgroup::"
