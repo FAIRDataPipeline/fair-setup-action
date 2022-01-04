@@ -6,7 +6,14 @@ jobs:
       steps:
         - name: Create pretend project
           run: mkdir my_project
+        - uses: actions/checkout@v2
         - uses: FAIRDataPipeline/fair-setup-action@testing
           with:
-            cmd: run
             directory: my_project
+            local_registry: local_registry
+            remote_registry: remote_registry
+        - name: Run Hello World!
+          run: |
+            fair run --script 'echo "Hello World!"'
+            fair log
+          working-directory: my_project

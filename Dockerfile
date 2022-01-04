@@ -12,7 +12,7 @@ RUN apt install -y wget curl git zip unzip
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Install Poetry
-RUN python -m pip install poetry pyyaml
+RUN python -m pip install pyyaml
 
 # Add entrypoint script
 COPY entrypoint.sh /entrypoint.sh

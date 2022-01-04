@@ -10,12 +10,13 @@ steps:
       with:
         directory: /path/of/fair/project
 ```
-This will run `fair init` in CI mode within the given location.
+This will run `fair init` in CI mode within the given location, and make the `fair` command available.
 
 Additional options are available under the `with` tag:
 
 |**Option**|**Description**|
 |---|---|
-|`cmd`| `fair` command to run (all except `init`) |
-|`cli_branch`| Use alternative git branch for the FAIR-CLI |
-|`registry_tag`| Use alternative tag for the FAIR data registry |
+|`directory`| directory in which to run `fair init --ci`. If unset use current working directory. |
+|`local_registry`| Specify a directory for local registry installation. If unset no registry installed. |
+|`remote_registry`| Specify a directory for remote registry installation. If unset no registry installed. |
+|`ref`| Specify version of `fair-cli` to use, the default `latest` will install from PyPi the latest version, else a git reference (e.g. repository tag) is used |
