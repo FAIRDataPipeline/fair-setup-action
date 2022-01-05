@@ -18,8 +18,14 @@ if [ "${INPUT_REF}" == "latest" ]; then
 fi
 git checkout ${INPUT_REF}
 poetry install
-poetry run pip install pyinstaller
-poetry run pyinstaller -c -F fair/cli.py --collect-all fair --onefile --name fair --distpath $FAIR_BIN_DIR/bin --hidden-import pydantic[email]
+poetry run pip install pyinstaller pyinstaller-hooks-contrib
+poetry run pyinstaller -c -F \
+    fair/cli.py \
+    --collect-all fair \
+    --onefile \
+    --name fair \
+    --hidden-import email_validator \
+    --distpath $FAIR_BIN_DIR/bin
 
 echo "::endgroup::"
 
