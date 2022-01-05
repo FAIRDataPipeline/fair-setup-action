@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 CURWD=$PWD
 export FAIR_REGISTRY_DIR=$HOME/.fair/registry
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 # Create a local bin directory
 FAIR_BIN_DIR="$PWD/fair-cli"
@@ -80,6 +82,8 @@ if [ -n "${INPUT_DIRECTORY}" ]; then
     fi
 
     cd ${CURWD}/${INPUT_DIRECTORY}
+else
+    INPUT_DIRECTORY=${CURWD}
 fi
 
 if [ ! -d "$PWD/.fair" ]; then
