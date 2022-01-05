@@ -12,7 +12,7 @@ jobs:
             directory: my_project
             local_registry: local_registry
             remote_registry: remote_registry
-            ref: develop
+            ref: kzscisoft/fix-binary-wrong-python-venv
         - name: Run Hello World!
           run: |
             fair run --script 'echo "Hello World!"'
