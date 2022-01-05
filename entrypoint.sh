@@ -1,12 +1,11 @@
 #!/usr/bin/bash
 CURWD=$PWD
-export FAIR_REGISTRY_DIR=$HOME/.fair/registry
+export FAIR_REGISTRY_DIR=/github/home/.fair/registry
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
 # Create a local bin directory
 FAIR_BIN_DIR="$PWD/fair-cli"
-PATH=$PATH:$FAIR_BIN_DIR/bin
 mkdir -p $FAIR_BIN_DIR/bin
 
 echo "::group::Install FAIR-CLI"
@@ -20,7 +19,7 @@ if [ "${INPUT_REF}" == "latest" ]; then
 fi
 git checkout ${INPUT_REF}
 poetry install
-poetry run pip install pyinstaller pyinstaller-hooks-contrib
+poetry run pip install pyinstaller pyinstaller-hooks-contrib graphviz
 poetry run pyinstaller -c -F \
     fair/cli.py \
     --collect-all fair \
@@ -97,7 +96,7 @@ if [ ! -d "$PWD/.fair" ]; then
         git commit -m "Initialised demo repo" > /dev/null
     fi
     echo "::notice title=Project Initialisation::Initialising FAIR repository"
-    fair init --ci
+    $FAIR_BIN_DIR/bin/fair init --ci
     echo "::endgroup::"
 fi
 
@@ -118,7 +117,8 @@ echo "::group::CLI Export"
 
 echo "::notice title=Updating PATH::Adding '$FAIR_BIN_DIR/bin' to \$PATH in \$GITHUB_ENV"
 
-echo "PATH=$PATH:$FAIR_BIN_DIR/bin" >> $GITHUB_ENV
+echo "PATH=$PATH" >> $GITHUB_ENV
+echo "$FAIR_BIN_DIR/bin" >> $GITHUB_PATH
 echo "FAIR_REGISTRY_DIR=$FAIR_REGISTRY_DIR" >> $GITHUB_ENV
 
 echo "::endgroup::"

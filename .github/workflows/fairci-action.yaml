@@ -15,6 +15,7 @@ jobs:
             ref: kzscisoft/fix-binary-wrong-python-venv
         - name: Run Hello World!
           run: |
+            ls /github/workspace/fair-cli/bin/
             fair run --script 'echo "Hello World!"'
             fair log
           working-directory: my_project
