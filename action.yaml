@@ -65,6 +65,18 @@ runs:
             ${HOME}/.fair/cli/cli-config.yaml
         echo "::endgroup::"
       shell: bash
+
+    - name: Cache Project Setup
+      id: faircli-project-cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ${{ inputs.directory }}/.fair/cli-config.yaml
+          ${{ inputs.directory }}/config.yaml
+          ${{ inputs.local_registry }}
+          ${{ inputs.remote_registry }}
+          ${HOME}/.fair/cli/cli-config.yaml
+        key: faircli-$FAIR_VERSION
 branding:
   icon: terminal
   color: gray-dark

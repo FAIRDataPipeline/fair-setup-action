@@ -4,8 +4,6 @@ export FAIR_REGISTRY_DIR=$HOME/.fair/registry
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-mkdir -p $FAIR_CLI_BIN
-
 echo "::group::Install FAIR-CLI"
 
 CLI_URL="https://github.com/FAIRDataPipeline/FAIR-CLI.git"
@@ -96,5 +94,7 @@ echo "::notice title=Updating PATH::Adding '$FAIR_BIN_DIR' to \$PATH in \$GITHUB
 
 export PATH=$FAIR_BIN_DIR:${PATH}
 echo "PATH=$PATH" >> $GITHUB_ENV
+
+cd $CURWD
 
 echo "::endgroup::"
