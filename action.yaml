@@ -9,11 +9,11 @@ inputs:
   local_data_store:
     description: Location of local registry data
     required: false
-    default: ''
+    default: data_store
   remote_registry:
     description: Location in which to install remote registry
     required: false
-    default: ''
+    default: registry-rem
   directory:
     description: Location of FAIR project for initialisation relative to runner directory
     required: false
@@ -22,9 +22,49 @@ inputs:
     description: Reference to use for FAIR-CLI
     required: false
     default: latest
+
+outputs:
+  fair-version:
+    description: "FAIR CLI installed version"
+    value: ${{ steps.fair-install.outputs.fair-version }}
+
 runs:
-  using: docker
-  image: Dockerfile
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v2
+    
+    - name: Install Poetry
+      uses: Gr1N/setup-poetry@v7
+
+    - name: Install Required Modules
+      run: python -m pip install PyYAML
+      shell: bash
+
+    - name: Install FAIR CLI
+      id: fair-install
+      run: |
+        FAIR_BIN_DIR=$GITHUB_WORKSPACE/fair-cli/bin \
+        PROJECT_DIRECTORY=$GITHUB_WORKSPACE/${{ inputs.directory }} \
+        REMOTE_REGISTRY=$GITHUB_WORKSPACE/${{ inputs.remote_registry }} \
+        LOCAL_REGISTRY=$GITHUB_WORKSPACE/${{ inputs.local_registry }} \
+        LOCAL_DATA_STORE=$GITHUB_WORKSPACE/${{ inputs.local_data_store }} \
+        REFERENCE=${{ inputs.ref }} \
+        $GITHUB_ACTION_PATH/setup-fair-cli.sh
+        echo "::set-output name=fair-version::$(echo $FAIR_VERSION)"
+      shell: bash
+
+    - name: Update CLI Configs
+      run: |
+        echo "::notice title=CLI YAML Update::Updating local and global CLI configurations"
+        python $GITHUB_ACTION_PATH/update_cli_config.py \
+            $GITHUB_WORKSPACE/${{ inputs.local_registry }}    \
+            $GITHUB_WORKSPACE/${{ inputs.remote_registry }}   \
+            $GITHUB_WORKSPACE/${{ inputs.local_data_store }}  \
+            $GITHUB_WORKSPACE/${{ inputs.directory }}/.fair/cli-config.yaml \
+            ${HOME}/.fair/cli/cli-config.yaml
+        echo "::endgroup::"
+      shell: bash
 branding:
   icon: terminal
   color: gray-dark
