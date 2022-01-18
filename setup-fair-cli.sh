@@ -4,6 +4,11 @@ export FAIR_REGISTRY_DIR=$HOME/.fair/registry
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
+if [ -z "$HOME" ]; then
+    export HOME=$CURWD/home
+    mkdir -p $HOME
+fi
+
 echo "::group::Install FAIR-CLI"
 
 CLI_URL="https://github.com/FAIRDataPipeline/FAIR-CLI.git"
@@ -75,6 +80,7 @@ cd ${PROJECT_DIRECTORY}
 
 if [ ! -d "$PWD/.fair" ]; then
     git config --global user.name "GitHub Action" > /dev/null
+    git config --global init.defaultBranch "main"
     git config --global user.email "github-action@users.noreply.github.com" > /dev/null
     if [ ! -d "${PWD}/.git" ]; then
         echo "::notice title=Project Initialisation::Initialising Git repository"
@@ -85,6 +91,7 @@ if [ ! -d "$PWD/.fair" ]; then
     fi
     echo "::notice title=Project Initialisation::Initialising FAIR repository"
     $FAIR_BIN_DIR/fair init --ci
+    ls $PROJECT_DIRECTORY
     echo "::endgroup::"
 fi
 

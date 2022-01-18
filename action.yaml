@@ -62,7 +62,7 @@ runs:
             $GITHUB_WORKSPACE/${{ inputs.remote_registry }}   \
             $GITHUB_WORKSPACE/${{ inputs.local_data_store }}  \
             $GITHUB_WORKSPACE/${{ inputs.directory }}/.fair/cli-config.yaml \
-            ${HOME}/.fair/cli/cli-config.yaml
+            $HOME/.fair/cli/cli-config.yaml
         echo "::endgroup::"
       shell: bash
 
@@ -73,10 +73,11 @@ runs:
         path: |
           ${{ inputs.directory }}/.fair/cli-config.yaml
           ${{ inputs.directory }}/config.yaml
+          ${{ inputs.directory }}/.git
           ${{ inputs.local_registry }}
           ${{ inputs.remote_registry }}
           ${HOME}/.fair/cli/cli-config.yaml
-        key: faircli-$FAIR_VERSION
+        key: faircli-${{ steps.fair-install.outputs.fair-version }}
 branding:
   icon: terminal
   color: gray-dark
