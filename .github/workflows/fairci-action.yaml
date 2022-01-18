@@ -16,6 +16,8 @@ jobs:
         - name: Run Hello World!
           run: |
             git remote add origin ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git
+            git fetch --all
+            git checkout main
             fair create --debug
             fair run --script 'echo "Hello World!"' --debug
             fair log
