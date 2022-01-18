@@ -1,4 +1,6 @@
 # fair-setup-action
+[![FAIR Data Pipeline Action Check](https://github.com/FAIRDataPipeline/fair-setup-action/actions/workflows/fairci-action.yaml/badge.svg)](https://github.com/FAIRDataPipeline/fair-setup-action/actions/workflows/fairci-action.yaml)
+
 GitHub Action for installation of the FAIR Data Pipeline and CLI into a CI runner
 
 ## Usage
