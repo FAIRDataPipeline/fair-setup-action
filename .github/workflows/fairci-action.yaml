@@ -15,6 +15,7 @@ jobs:
             ref: kzscisoft/fix-binary-wrong-python-venv
         - name: Run Hello World!
           run: |
+            git remote add origin ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git
             fair create --debug
             fair run --script 'echo "Hello World!"' --debug
             fair log
