@@ -8,7 +8,7 @@ GitHub Action for installation of the FAIR Data Pipeline and CLI into a CI runne
 This action requires at minimum the `directory` of the FAIR project.
 ```yaml
 steps:
-    - uses: FAIRDataPipeline/fair-setup-action@v1
+    - uses: FAIRDataPipeline/fair-setup-action@v2
       with:
         directory: /path/of/fair/project
 ```
